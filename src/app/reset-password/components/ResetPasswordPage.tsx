@@ -2,14 +2,13 @@
 
 import { baseUrl } from "@/constants/api";
 import axios from "axios";
-import { setCookie } from "cookies-next/client";
-import Link from "next/link";
+
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-const LoginPage = () => {
+const ResetPasswordPage = () => {
   const {
     register,
     handleSubmit,
@@ -31,15 +30,15 @@ const LoginPage = () => {
       // Add your login logic here (e.g., calling your NestJS API)
       // console.log("Logging in with:", data);
 
-      const res = await axios.post(`${baseUrl}/auth/login`, data);
+      const res = await axios.patch(`${baseUrl}/auth/change-password`, data);
 
       // console.log(res);
-      localStorage?.setItem("accessToken", res?.data?.access_token);
-      setCookie("refreshToken", res?.data?.refresh_token);
+      // localStorage?.setItem("accessToken", res?.data?.access_token);
+      // setCookie("refreshToken", res?.data?.refresh_token);
 
-      toast?.success("Successfully Logged In");
+      toast?.success("Password Changed Successfully");
 
-      router?.push("/");
+      router?.push("/login");
     } catch (error) {
       console.log(error);
       if (error?.response?.status === 400) {
@@ -53,7 +52,6 @@ const LoginPage = () => {
       setTimeout(() => setLoading(false), 2000);
     }
   };
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-xl shadow-lg">
@@ -62,17 +60,8 @@ const LoginPage = () => {
             Online Diary
           </h2>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Sign in to your account
+            Change Your Password
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Or{" "}
-            <Link
-              href="/signup"
-              className="font-medium text-indigo-600 hover:text-indigo-500"
-            >
-              create a new account
-            </Link>
-          </p>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
           <div>
@@ -128,17 +117,6 @@ const LoginPage = () => {
             </div>
           </div>
 
-          <div className="flex items-center justify-between">
-            <div className="text-sm">
-              <Link
-                href={"/reset-password"}
-                className="font-medium text-indigo-600 hover:text-indigo-500"
-              >
-                Forgot your password?
-              </Link>
-            </div>
-          </div>
-
           <div>
             <button
               type="submit"
@@ -147,7 +125,7 @@ const LoginPage = () => {
                 loading ? "bg-indigo-400" : "bg-indigo-600 hover:bg-indigo-700"
               } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors`}
             >
-              {loading ? "Signing in..." : "Sign in"}
+              {loading ? "Changing..." : "Change Password"}
             </button>
           </div>
         </form>
@@ -156,4 +134,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default ResetPasswordPage;
