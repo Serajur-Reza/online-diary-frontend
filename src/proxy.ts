@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { NextResponse, NextRequest } from "next/server";
 import { isTokenValid } from "./utils/auth";
-import { publicRoutes } from "./constants/api";
+import { publicRoutes } from "./constants/constants";
 
 // This function can be marked `async` if using `await` inside
 export async function proxy(request: NextRequest) {
@@ -17,14 +17,16 @@ export async function proxy(request: NextRequest) {
 
   console.log("valdi toke fromm middleware", isValid);
 
-  if (!isValid && !publicRoutes.includes(pathname)) {
-    const loginUrl = new URL("/login", request.url);
-    return NextResponse.redirect(loginUrl);
-  }
-
   if (isValid && pathname === "/") {
+    console.log("valid token", isValid && pathname === "/");
     const home = new URL("/home", request.url);
     return NextResponse.redirect(home);
+  }
+
+  if (!isValid && !publicRoutes.includes(pathname)) {
+    console.log("invalid token", !isValid && !publicRoutes.includes(pathname));
+    const loginUrl = new URL("/login", request.url);
+    return NextResponse.redirect(loginUrl);
   }
 
   // Check if the user is trying to access an admin page without a session

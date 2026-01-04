@@ -1,6 +1,7 @@
 "use client";
 
-import { baseUrl } from "@/constants/api";
+import { baseUrl } from "@/constants/constants";
+import api from "@/utils/axios";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -32,7 +33,7 @@ const SignUpPage = () => {
       // Add your login logic here (e.g., calling your NestJS API)
       // console.log("Logging in with:", data);
 
-      const res = await axios.post(`${baseUrl}/users`, data);
+      const res = await api.post(`${baseUrl}/users`, data);
 
       // console.log(res);
 

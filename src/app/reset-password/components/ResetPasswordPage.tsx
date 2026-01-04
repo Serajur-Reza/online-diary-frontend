@@ -1,6 +1,7 @@
 "use client";
 
-import { baseUrl } from "@/constants/api";
+import { baseUrl } from "@/constants/constants";
+import api from "@/utils/axios";
 import axios from "axios";
 
 import { useRouter } from "next/navigation";
@@ -30,7 +31,7 @@ const ResetPasswordPage = () => {
       // Add your login logic here (e.g., calling your NestJS API)
       // console.log("Logging in with:", data);
 
-      const res = await axios.patch(`${baseUrl}/auth/change-password`, data);
+      const res = await api.patch(`${baseUrl}/auth/change-password`, data);
 
       // console.log(res);
       // localStorage?.setItem("accessToken", res?.data?.access_token);

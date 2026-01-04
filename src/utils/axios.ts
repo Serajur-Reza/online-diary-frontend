@@ -1,4 +1,4 @@
-import { baseUrl, publicRoutes } from "@/constants/api";
+import { baseUrl, publicApis } from "@/constants/constants";
 import axios from "axios";
 import { isTokenValid } from "./auth";
 
@@ -12,9 +12,7 @@ const api = axios.create({
 // Example Request Interceptor (Add Auth Header)
 axios.interceptors.request.use(
   async function (config) {
-    const isPublicRoute = publicRoutes.some((path) =>
-      config.url?.includes(path)
-    );
+    const isPublicRoute = publicApis.some((path) => config.url?.includes(path));
     if (isPublicRoute) {
       return config;
     }
@@ -24,10 +22,7 @@ axios.interceptors.request.use(
       const isValid = isTokenValid(token as string);
 
       if (!isValid) {
-        const newToken = await axios.post(
-          `${baseUrl}/auth/change-password`,
-          {}
-        );
+        const newToken = await axios.post(`${baseUrl}/auth/refresh-token`, {});
 
         console.log("new tokebn from axios", newToken);
 
@@ -58,3 +53,5 @@ axios.interceptors.response.use(
     return Promise.reject(error); // Must reject promise
   }
 );
+
+export default api;

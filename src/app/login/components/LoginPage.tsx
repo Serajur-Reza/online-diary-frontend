@@ -1,7 +1,7 @@
 "use client";
 
-import { baseUrl } from "@/constants/api";
-import axios from "axios";
+import { baseUrl } from "@/constants/constants";
+import api from "@/utils/axios";
 import { setCookie } from "cookies-next/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -31,11 +31,13 @@ const LoginPage = () => {
       // Add your login logic here (e.g., calling your NestJS API)
       // console.log("Logging in with:", data);
 
-      const res = await axios.post(`${baseUrl}/auth/login`, data);
+      const res = await api.post(`${baseUrl}/auth/login`, data);
 
       // console.log(res);
       localStorage?.setItem("accessToken", res?.data?.access_token);
-      setCookie("refreshToken", res?.data?.refresh_token);
+      setCookie("refreshToken", res?.data?.refresh_token, {
+        maxAge: 60 * 60 * 24 * 7,
+      });
 
       toast?.success("Successfully Logged In");
 
