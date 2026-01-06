@@ -7,10 +7,11 @@ const api = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true,
 });
 
 // Example Request Interceptor (Add Auth Header)
-axios.interceptors.request.use(
+api.interceptors.request.use(
   async function (config) {
     const isPublicRoute = publicApis.some((path) => config.url?.includes(path));
     if (isPublicRoute) {
@@ -18,16 +19,25 @@ axios.interceptors.request.use(
     }
 
     const token = localStorage.getItem("accessToken");
+
     if (token) {
       const isValid = isTokenValid(token as string);
 
       if (!isValid) {
-        const newToken = await axios.post(`${baseUrl}/auth/refresh-token`, {});
+        console.log("from axios", token, config?.url, isValid, isPublicRoute);
+        const newToken = await api.post(
+          `${baseUrl}/auth/refresh-token`,
+          {},
+          { withCredentials: true }
+        );
 
-        console.log("new tokebn from axios", newToken);
+        console.log("new tokebn from axios", newToken?.data?.access_token);
 
         localStorage?.removeItem("accessToken");
-        localStorage?.setItem("accessToken", newToken as unknown as string);
+        localStorage?.setItem(
+          "accessToken",
+          newToken?.data?.access_token as string
+        );
         config.headers.Authorization = `Bearer ${newToken}`;
       } else {
         config.headers.Authorization = `Bearer ${token}`;
@@ -41,14 +51,14 @@ axios.interceptors.request.use(
 );
 
 // Example Response Interceptor (Handle 401 Unauthorized)
-axios.interceptors.response.use(
+api.interceptors.response.use(
   function (response) {
     return response; // Handle successful responses
   },
   function (error) {
     if (error.response && error.response.status === 401) {
       // Handle token expiration, redirect to login, etc.
-      console.log("Unauthorized, redirecting to login...");
+      console.log("Unauthorized, redirecting to login...", error);
     }
     return Promise.reject(error); // Must reject promise
   }

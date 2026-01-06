@@ -11,11 +11,11 @@ export async function proxy(request: NextRequest) {
   const cookieStore = await cookies();
   const refreshToken = cookieStore?.get("refreshToken");
 
-  console.log("path from middleware", refreshToken);
+  // console.log("path from middleware", refreshToken);
 
   const isValid = isTokenValid(refreshToken?.value as string);
 
-  console.log("valdi toke fromm middleware", isValid);
+  // console.log("valdi toke fromm middleware", isValid);
 
   if (isValid && pathname === "/") {
     console.log("valid token", isValid && pathname === "/");

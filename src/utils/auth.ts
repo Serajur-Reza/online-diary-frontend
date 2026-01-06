@@ -12,3 +12,7 @@ export const isTokenValid = (token: string) => {
     return false;
   }
 };
+
+export const getAccessToken = () => {
+  return localStorage?.getItem("accessToken") || "";
+};

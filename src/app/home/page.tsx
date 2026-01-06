@@ -5,8 +5,8 @@ import HomePage from "./components/HomePage";
 
 const Home = async () => {
   return (
-    <div>
-      <h1 className="text-2xl font-semibold">Home</h1>
+    <div className="min-h-screen bg-gray-50 p-10">
+      <h1 className="text-2xl font-semibold">Your Records</h1>
       <HomePage />
     </div>
   );
