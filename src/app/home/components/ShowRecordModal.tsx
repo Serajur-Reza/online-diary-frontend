@@ -1,17 +1,19 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import { X } from "lucide-react";
 
 export default function ShowRecordModal(props) {
-  const { showViewRecordModal, setShowViewRecordModal, singleRecord } = props;
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-  };
+  const {
+    showViewRecordModal,
+    setShowViewRecordModal,
+    singleRecord,
+    setSingleRecord,
+  } = props;
 
   const onClose = () => {
     setShowViewRecordModal(false);
+    setSingleRecord(null);
   };
 
   useEffect(() => {
@@ -24,8 +26,6 @@ export default function ShowRecordModal(props) {
 
   if (!showViewRecordModal) return null;
 
-  //   if (!showViewRecordModal) return null;
-
   return (
     // Backdrop
     <div
@@ -33,7 +33,10 @@ export default function ShowRecordModal(props) {
       onClick={onClose}
     >
       {/* Modal Container */}
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl animate-in fade-in zoom-in duration-200">
+      <div
+        className="w-full max-w-md bg-white rounded-2xl shadow-2xl animate-in fade-in zoom-in duration-200"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-100">
           <h2 className="text-xl font-semibold text-gray-800">Record</h2>
@@ -45,53 +48,34 @@ export default function ShowRecordModal(props) {
           </button>
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
-          {/* Title Field */}
+        <div className="p-6 space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <h1 className="block text-xl font-semibold text-gray-900 mb-1">
               Title
-            </label>
-            <input
-              type="text"
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
-              //   value={formData.title}
-              //   onChange={(e) =>
-              //     setFormData({ ...formData, title: e.target.value })
-              //   }
-            />
+            </h1>
+            <h3 className="text-md font-normal text-gray-900 mb-1">
+              {singleRecord?.title}
+            </h3>
           </div>
 
-          {/* Description Field */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <h1 className="block text-xl font-semibold text-gray-900 mb-1">
               Description
-            </label>
-            <textarea
-              rows={3}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all resize-none"
-              //   value={formData.description}
-              //   onChange={(e) =>
-              //     setFormData({ ...formData, description: e.target.value })
-              //   }
-            />
+            </h1>
+
+            <p className="text-sm font-normal text-gray-900 mb-1">
+              {singleRecord?.description}
+            </p>
           </div>
 
           {/* Date Field */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Due Date
-            </label>
-            <input
-              type="date"
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
-              //   value={formData.date}
-              //   onChange={(e) =>
-              //     setFormData({ ...formData, date: e.target.value })
-              //   }
-            />
+            <h1 className="block text-xl font-semibold text-gray-900 mb-1">
+              Date
+            </h1>
+            <p className="text-sm font-normal text-gray-900 mb-1">
+              {new Date(singleRecord?.date).toLocaleDateString()}
+            </p>
           </div>
 
           {/* Footer Actions */}
@@ -103,14 +87,8 @@ export default function ShowRecordModal(props) {
             >
               Cancel
             </button>
-            {/* <button
-              type="submit"
-              className="flex-1 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 shadow-md shadow-indigo-200 transition-all"
-            >
-              Update Task
-            </button> */}
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );

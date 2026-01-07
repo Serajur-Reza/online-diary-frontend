@@ -14,6 +14,8 @@ export default function RecordActions(props) {
     setShowEditRecordModal,
     showDeleteRecordModal,
     setShowDeleteRecordModal,
+    singleRecord,
+    setSingleRecord,
   } = props;
   const [isOpen, setIsOpen] = useState(false);
 
@@ -61,9 +63,6 @@ export default function RecordActions(props) {
           <div className="py-1">
             <button
               onClick={() => {
-                // console.log("View", rowId);
-                // fetchData()
-                console.log(showViewRecordModal);
                 setShowViewRecordModal(true);
                 setIsOpen(false);
               }}
@@ -74,8 +73,8 @@ export default function RecordActions(props) {
             </button>
             <button
               onClick={() => {
-                // console.log("Edit", rowId);
-
+                console.log(showEditRecordModal);
+                setShowEditRecordModal(true);
                 setIsOpen(false);
               }}
               className="group flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white transition-colors"
@@ -87,7 +86,7 @@ export default function RecordActions(props) {
           <div className="py-1">
             <button
               onClick={() => {
-                // console.log("Delete", rowId);
+                setShowDeleteRecordModal(true);
                 setIsOpen(false);
               }}
               className="group flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-600 hover:text-white transition-colors"

@@ -6,6 +6,7 @@ import api from "@/utils/axios";
 import React, { useEffect, useState } from "react";
 import RecordActions from "./RecordActions";
 import ShowRecordModal from "./ShowRecordModal";
+import EditRecordModal from "./EditRecordModal";
 
 const HomePage = () => {
   const [records, setRecords] = useState([]);
@@ -72,14 +73,18 @@ const HomePage = () => {
                   >
                     <EllipsisVertical size={18} />
                   </button> */}
-                  <RecordActions
-                    showViewRecordModal={showViewRecordModal}
-                    setShowViewRecordModal={setShowViewRecordModal}
-                    showEditRecordModal={showEditRecordModal}
-                    setShowEditRecordModal={setShowEditRecordModal}
-                    showDeleteRecordModal={showDeleteRecordModal}
-                    setShowDeleteRecordModal={setShowDeleteRecordModal}
-                  />
+                  <div onClick={() => setSingleRecord(item)}>
+                    <RecordActions
+                      showViewRecordModal={showViewRecordModal}
+                      setShowViewRecordModal={setShowViewRecordModal}
+                      showEditRecordModal={showEditRecordModal}
+                      setShowEditRecordModal={setShowEditRecordModal}
+                      showDeleteRecordModal={showDeleteRecordModal}
+                      setShowDeleteRecordModal={setShowDeleteRecordModal}
+                      singleRecord={singleRecord}
+                      setSingleRecord={setSingleRecord}
+                    />
+                  </div>
                 </td>
               </tr>
             ))}
@@ -92,8 +97,27 @@ const HomePage = () => {
           showViewRecordModal={showViewRecordModal}
           setShowViewRecordModal={setShowViewRecordModal}
           singleRecord={singleRecord}
+          setSingleRecord={setSingleRecord}
         />
       )}
+
+      {showEditRecordModal && (
+        <EditRecordModal
+          showEditRecordModal={showEditRecordModal}
+          setShowEditRecordModal={setShowEditRecordModal}
+          singleRecord={singleRecord}
+          setSingleRecord={setSingleRecord}
+        />
+      )}
+
+      {/* {showViewRecordModal && (
+        <ShowRecordModal
+          showViewRecordModal={showViewRecordModal}
+          setShowViewRecordModal={setShowViewRecordModal}
+          singleRecord={singleRecord}
+          setSingleRecord={setSingleRecord}
+        />
+      )} */}
     </div>
   );
 };
