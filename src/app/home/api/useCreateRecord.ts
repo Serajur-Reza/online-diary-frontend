@@ -3,14 +3,14 @@ import { getAccessToken } from "@/utils/auth";
 import api from "@/utils/axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export default function useUpdateRecord() {
+export default function useCreateRecord() {
   const queryClient = useQueryClient();
   const accessToken = getAccessToken();
 
   return useMutation({
     // 1. The actual API call
-    mutationFn: async ({ id, data }) => {
-      const response = await api.patch(`${baseUrl}/records/${id}`, data, {
+    mutationFn: async ({ data }) => {
+      const response = await api.post(`${baseUrl}/records/`, data, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

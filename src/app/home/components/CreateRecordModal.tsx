@@ -5,48 +5,36 @@ import { X } from "lucide-react";
 import { toast } from "sonner";
 import dayjs from "dayjs";
 import useUpdateRecord from "../api/useUpdateRecord";
+import useCreateRecord from "../api/useCreateRecord";
 
-export default function EditRecordModal(props) {
-  const {
-    showEditRecordModal,
-    setShowEditRecordModal,
-    singleRecord,
-    setSingleRecord,
-  } = props;
+export default function CreateRecordModal(props) {
+  const { showCreateRecordModal, setShowCreateRecordModal } = props;
   const [formData, setFormData] = useState({
-    title: singleRecord?.title || "",
-    description: singleRecord?.description || "",
-    date: dayjs(singleRecord?.date).format("YYYY-MM-DD") || "",
+    title: "",
+    description: "",
+    date: "",
   });
-  const { mutateAsync: updateRecord, isPending: loading } = useUpdateRecord();
+  const { mutateAsync: createRecord, isPending: loading } = useCreateRecord();
 
   const onClose = () => {
-    setShowEditRecordModal(false);
-    setSingleRecord(null);
+    setShowCreateRecordModal(false);
   };
 
   const handleSubmit = async (e) => {
     try {
       e?.preventDefault();
 
-      const partialBody = {};
-      if (formData?.title !== singleRecord?.title)
-        partialBody["title"] = formData?.title;
-      if (formData?.description !== singleRecord?.description)
-        partialBody["description"] = formData?.description;
-      if (formData?.date !== singleRecord?.date)
-        partialBody["date"] = dayjs(formData?.date).format("YYYY-MM-DD");
+      //
 
-      const res = await updateRecord({
-        id: singleRecord?.id,
-        data: partialBody,
+      const res = await createRecord({
+        data: formData,
       });
 
-      toast?.success("Successfully Updated Record");
+      toast?.success("Successfully Created Record");
     } catch (error) {
       toast?.error(error?.message || "something went wrong");
     } finally {
-      setShowEditRecordModal(false);
+      setShowCreateRecordModal(false);
     }
   };
 
@@ -58,7 +46,7 @@ export default function EditRecordModal(props) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [onClose]);
 
-  if (!showEditRecordModal) return null;
+  if (!showCreateRecordModal) return null;
 
   return (
     // Backdrop
@@ -73,7 +61,7 @@ export default function EditRecordModal(props) {
       >
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-100">
-          <h2 className="text-xl font-semibold text-gray-800">Edit Record</h2>
+          <h2 className="text-xl font-semibold text-gray-800">Create Record</h2>
           <button
             onClick={onClose}
             className="p-1 hover:bg-gray-100 rounded-full transition-colors"
@@ -87,7 +75,7 @@ export default function EditRecordModal(props) {
           {/* Title Field */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Title
+              Title <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
@@ -103,9 +91,10 @@ export default function EditRecordModal(props) {
           {/* Description Field */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Description
+              Description <span className="text-red-500">*</span>
             </label>
             <textarea
+              required
               rows={3}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all resize-none"
               value={formData?.description}
@@ -118,13 +107,12 @@ export default function EditRecordModal(props) {
           {/* Date Field */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Date
+              Date <span className="text-red-500">*</span>
             </label>
             <input
               type="date"
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
-              value={formData?.date}
               onChange={(e) => {
                 setFormData({
                   ...formData,
@@ -149,7 +137,7 @@ export default function EditRecordModal(props) {
               className="flex-1 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 shadow-md shadow-indigo-200 transition-all"
               disabled={loading}
             >
-              {loading ? "Updating..." : "Update"}
+              {loading ? "Creating..." : "Create"}
             </button>
           </div>
         </form>
