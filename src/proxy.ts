@@ -11,20 +11,14 @@ export async function proxy(request: NextRequest) {
   const cookieStore = await cookies();
   const refreshToken = cookieStore?.get("refreshToken");
 
-  // console.log("path from middleware", refreshToken);
-
   const isValid = isTokenValid(refreshToken?.value as string);
 
-  // console.log("valdi toke fromm middleware", isValid);
-
   if (isValid && pathname === "/") {
-    console.log("valid token", isValid && pathname === "/");
     const home = new URL("/home", request.url);
     return NextResponse.redirect(home);
   }
 
   if (!isValid && !publicRoutes.includes(pathname)) {
-    console.log("invalid token", !isValid && !publicRoutes.includes(pathname));
     const loginUrl = new URL("/login", request.url);
     return NextResponse.redirect(loginUrl);
   }

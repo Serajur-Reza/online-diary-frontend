@@ -36,17 +36,6 @@ export default function RecordActions(props) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen]);
 
-  //   const fetchData = async (id) => {
-  //     const accessToken = getAccessToken();
-  //     const res = await api.get(`${baseUrl}/records/${id}`, {
-  //       headers: {
-  //         Authorization: `Bearer ${accessToken}`,
-  //       },
-  //     });
-  //     console.log("records", res?.data);
-  //     setSingleRecord(res?.data);
-  //   };
-
   return (
     <div className="relative inline-block text-left" ref={menuRef}>
       {/* The 3-Dots Trigger */}
@@ -73,7 +62,6 @@ export default function RecordActions(props) {
             </button>
             <button
               onClick={() => {
-                console.log(showEditRecordModal);
                 setShowEditRecordModal(true);
                 setIsOpen(false);
               }}

@@ -55,7 +55,7 @@ export default function DeleteRecordModal(props) {
     >
       {/* Modal Container */}
       <div
-        className="w-full max-w-md bg-white rounded-2xl shadow-2xl animate-in fade-in zoom-in duration-200"
+        className="w-full max-w-200 bg-white rounded-2xl shadow-2xl animate-in fade-in zoom-in duration-200"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}

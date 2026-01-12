@@ -1,14 +1,13 @@
 "use client";
 
-import { baseUrl } from "@/constants/constants";
-import api from "@/utils/axios";
 import { setCookie } from "cookies-next/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import useLogin from "../api/useLogin";
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 
 const LoginPage = () => {
   const {
@@ -25,6 +24,10 @@ const LoginPage = () => {
   const router = useRouter();
 
   const { mutateAsync: login, isPending: loading } = useLogin();
+
+  const [isVisible, setIsVisible] = useState(false);
+
+  const toggleVisibility = () => setIsVisible(!isVisible);
 
   const onSubmit = async (data) => {
     const res = await login({ data });
@@ -70,17 +73,33 @@ const LoginPage = () => {
           <label className="block text-sm font-medium text-gray-700">
             Password
           </label>
-          <input
-            type="password"
-            className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-            placeholder="••••••••"
-            // value={formData.password}
-            {...register("password", {
-              required: true,
-              minLength: { value: 4, message: "Password too short" },
-              // onChange: handleChange,
-            })}
-          />
+
+          <div className="relative">
+            <input
+              type={isVisible ? "text" : "password"}
+              className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500  sm:text-sm"
+              placeholder="••••••••"
+              {...register("password", {
+                required: true,
+                minLength: { value: 4, message: "Password too short" },
+              })}
+            />
+
+            {/* Toggle Button */}
+            <button
+              type="button"
+              onClick={toggleVisibility}
+              className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-md transition-colors"
+              // tabIndex={-1} // Prevents tabbing to the icon for better keyboard flow
+              aria-label={isVisible ? "Hide password" : "Show password"}
+            >
+              {isVisible ? (
+                <EyeOff size={20} strokeWidth={2} />
+              ) : (
+                <Eye size={20} strokeWidth={2} />
+              )}
+            </button>
+          </div>
 
           {errors?.password && (
             <span className="text-red-500">

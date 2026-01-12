@@ -6,16 +6,7 @@ import { useState } from "react";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   // Use useState to ensure the QueryClient is only created once per browser session
-  const [queryClient] = useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            staleTime: 60 * 1000, // Data stays "fresh" for 1 minute
-          },
-        },
-      })
-  );
+  const [queryClient] = useState(() => new QueryClient({}));
 
   return (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>

@@ -11,16 +11,10 @@ export default function useSignUp() {
     // 1. The actual API call
     mutationFn: async ({ data }) => {
       try {
-        // Add your login logic here (e.g., calling your NestJS API)
-        // console.log("Logging in with:", data);
-
         const res = await api.post(`${baseUrl}/users`, data);
-
-        // console.log(res);
 
         toast?.success("Successfully Registered");
       } catch (error) {
-        console.log(error);
         if (error?.response?.status === 400) {
           toast?.error(
             error?.response?.data?.message || "something went wrong"

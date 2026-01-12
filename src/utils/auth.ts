@@ -16,3 +16,13 @@ export const isTokenValid = (token: string) => {
 export const getAccessToken = () => {
   return localStorage?.getItem("accessToken") || "";
 };
+
+export const userInfo = () => {
+  const token = localStorage?.getItem("accessToken");
+  if (token) {
+    const decoded = jwtDecode(token);
+    return decoded;
+  }
+
+  return;
+};

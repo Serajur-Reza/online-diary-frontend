@@ -24,14 +24,11 @@ api.interceptors.request.use(
       const isValid = isTokenValid(token as string);
 
       if (!isValid) {
-        console.log("from axios", token, config?.url, isValid, isPublicRoute);
         const newToken = await api.post(
           `${baseUrl}/auth/refresh-token`,
           {},
           { withCredentials: true }
         );
-
-        console.log("new tokebn from axios", newToken?.data?.access_token);
 
         localStorage?.removeItem("accessToken");
         localStorage?.setItem(

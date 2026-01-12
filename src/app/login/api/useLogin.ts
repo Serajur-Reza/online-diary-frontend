@@ -16,7 +16,6 @@ export default function useLogin() {
         toast?.success("Successfully Logged In");
         return response.data;
       } catch (error) {
-        console.log(error);
         if (error?.response?.status === 400) {
           toast?.error(
             error?.response?.data?.message || "something went wrong"

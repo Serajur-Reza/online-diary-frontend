@@ -5,36 +5,59 @@ import { X } from "lucide-react";
 import { toast } from "sonner";
 import dayjs from "dayjs";
 import useUpdateRecord from "../api/useUpdateRecord";
-import useCreateRecord from "../api/useCreateRecord";
+import Editor from "@/components/Editor";
 
-export default function CreateRecordModal(props) {
-  const { showCreateRecordModal, setShowCreateRecordModal } = props;
+export default function EditRecordModal(props) {
+  const {
+    showEditRecordModal,
+    setShowEditRecordModal,
+    singleRecord,
+    setSingleRecord,
+  } = props;
   const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    date: "",
+    title: singleRecord?.title || "",
+    description: singleRecord?.description || "",
+    date: dayjs(singleRecord?.date).format("YYYY-MM-DD") || "",
   });
-  const { mutateAsync: createRecord, isPending: loading } = useCreateRecord();
+  const { mutateAsync: updateRecord, isPending: loading } = useUpdateRecord();
+
+  const [error, setError] = useState(false);
 
   const onClose = () => {
-    setShowCreateRecordModal(false);
+    setShowEditRecordModal(false);
+    setSingleRecord(null);
   };
 
   const handleSubmit = async (e) => {
     try {
       e?.preventDefault();
 
-      //
+      const partialBody = {};
+      if (formData?.title !== singleRecord?.title)
+        partialBody["title"] = formData?.title;
+      if (formData?.description !== singleRecord?.description) {
+        partialBody["description"] = formData?.description;
+        const isActuallyEmpty =
+          partialBody?.description.replace(/<[^>]*>/g, "").trim().length === 0;
 
-      const res = await createRecord({
-        data: formData,
+        if (isActuallyEmpty) {
+          setError(true);
+          return; // Stop the save
+        }
+      }
+
+      if (formData?.date !== singleRecord?.date)
+        partialBody["date"] = dayjs(formData?.date).format("YYYY-MM-DD");
+
+      const res = await updateRecord({
+        id: singleRecord?.id,
+        data: partialBody,
       });
 
-      toast?.success("Successfully Created Record");
+      toast?.success("Successfully Updated Record");
+      setShowEditRecordModal(false);
     } catch (error) {
       toast?.error(error?.message || "something went wrong");
-    } finally {
-      setShowCreateRecordModal(false);
     }
   };
 
@@ -46,7 +69,7 @@ export default function CreateRecordModal(props) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [onClose]);
 
-  if (!showCreateRecordModal) return null;
+  if (!showEditRecordModal) return null;
 
   return (
     // Backdrop
@@ -56,12 +79,12 @@ export default function CreateRecordModal(props) {
     >
       {/* Modal Container */}
       <div
-        className="w-full max-w-md bg-white rounded-2xl shadow-2xl animate-in fade-in zoom-in duration-200"
+        className="w-full max-w-200  bg-white rounded-2xl shadow-2xl animate-in fade-in zoom-in duration-200"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-100">
-          <h2 className="text-xl font-semibold text-gray-800">Create Record</h2>
+          <h2 className="text-xl font-semibold text-gray-800">Edit Record</h2>
           <button
             onClick={onClose}
             className="p-1 hover:bg-gray-100 rounded-full transition-colors"
@@ -75,7 +98,7 @@ export default function CreateRecordModal(props) {
           {/* Title Field */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Title <span className="text-red-500">*</span>
+              Title
             </label>
             <input
               type="text"
@@ -91,28 +114,38 @@ export default function CreateRecordModal(props) {
           {/* Description Field */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Description <span className="text-red-500">*</span>
+              Description
             </label>
-            <textarea
-              required
+            {/* <textarea
               rows={3}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all resize-none"
               value={formData?.description}
               onChange={(e) => {
                 setFormData({ ...formData, description: e.target.value });
               }}
+            /> */}
+
+            <Editor
+              value={formData?.description}
+              onChange={(newHtml) =>
+                setFormData({ ...formData, description: newHtml })
+              }
             />
+            {error && (
+              <span className="text-red-600">Please write something</span>
+            )}
           </div>
 
           {/* Date Field */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Date <span className="text-red-500">*</span>
+              Date
             </label>
             <input
               type="date"
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+              value={formData?.date}
               onChange={(e) => {
                 setFormData({
                   ...formData,
@@ -137,7 +170,7 @@ export default function CreateRecordModal(props) {
               className="flex-1 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 shadow-md shadow-indigo-200 transition-all"
               disabled={loading}
             >
-              {loading ? "Creating..." : "Create"}
+              {loading ? "Updating..." : "Update"}
             </button>
           </div>
         </form>

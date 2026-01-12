@@ -15,7 +15,6 @@ export default function useResetPassword() {
 
         toast?.success("Password Changed Successfully");
       } catch (error) {
-        console.log(error);
         if (error?.response?.status === 400) {
           toast?.error(
             error?.response?.data?.message || "something went wrong"

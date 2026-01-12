@@ -71,12 +71,6 @@ const HomePage = () => {
                     {new Date(item?.createdAt).toLocaleString()}
                   </td>
                   <td className="whitespace-nowrap px-4 py-3 text-right">
-                    {/* <button
-                    className="p-2 hover:bg-gray-200 rounded-full text-gray-500 transition-colors"
-                    onClick={() => console.log("Open menu for", item?.id)}
-                  >
-                    <EllipsisVertical size={18} />
-                  </button> */}
                     <div onClick={() => setSingleRecord(item)}>
                       <RecordActions
                         showViewRecordModal={showViewRecordModal}

@@ -3,6 +3,8 @@
 import React, { useEffect } from "react";
 import { X } from "lucide-react";
 
+import UniversalHtmlRenderer from "@/components/HTMLParser";
+
 export default function ShowRecordModal(props) {
   const {
     showViewRecordModal,
@@ -34,7 +36,7 @@ export default function ShowRecordModal(props) {
     >
       {/* Modal Container */}
       <div
-        className="w-full max-w-md bg-white rounded-2xl shadow-2xl animate-in fade-in zoom-in duration-200"
+        className="w-full max-w-200 bg-white rounded-2xl shadow-2xl animate-in fade-in zoom-in duration-200"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -63,9 +65,20 @@ export default function ShowRecordModal(props) {
               Description
             </h1>
 
-            <p className="text-sm font-normal text-gray-900 mb-1">
+            {/* <p className="text-sm font-normal text-gray-900 mb-1">
               {singleRecord?.description}
-            </p>
+            </p> */}
+            <UniversalHtmlRenderer
+              html={singleRecord?.description}
+              className=" html-content"
+            />
+
+            {/* {singleRecord?.description}
+
+            <div
+              className="html-content"
+              dangerouslySetInnerHTML={{ __html: singleRecord?.description }}
+            /> */}
           </div>
 
           {/* Date Field */}
