@@ -40,7 +40,7 @@ const HomePage = () => {
                   Title
                 </th>
                 <th className="px-4 py-3 font-semibold text-left text-gray-900">
-                  Description
+                  Mood
                 </th>
                 <th className="px-4 py-3 font-semibold text-left text-gray-900">
                   Date
@@ -62,7 +62,7 @@ const HomePage = () => {
                     {item?.title}
                   </td>
                   <td className="px-4 py-3 text-gray-700 max-w-xs truncate">
-                    {item?.description}
+                    {item?.sentiment?.mood}
                   </td>
                   <td className="whitespace-nowrap px-4 py-3 text-gray-600">
                     {new Date(item?.date).toLocaleDateString()}

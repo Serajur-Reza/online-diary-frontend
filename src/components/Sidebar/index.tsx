@@ -10,7 +10,7 @@ import { deleteCookie } from "cookies-next/client";
 
 const navigation = [
   { name: "Home", href: "/" },
-  // { name: "Calendar", href: "/calendar" },
+  { name: "Mood", href: "/mood" },
 ];
 
 export default function Sidebar() {

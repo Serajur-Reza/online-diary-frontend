@@ -4,7 +4,7 @@ import Sidebar from "@/components/Sidebar";
 const Home = async () => {
   return (
     <div className="flex min-h-screen">
-      <Sidebar />
+      {/* <Sidebar /> */}
 
       {/* Main content area */}
       <main className="flex-1 lg:pl-72">
