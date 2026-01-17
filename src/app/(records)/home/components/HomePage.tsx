@@ -7,9 +7,15 @@ import EditRecordModal from "./EditRecordModal";
 import useGetRecords from "../api/useGetRecords";
 import CreateRecordModal from "./CreateRecordModal";
 import DeleteRecordModal from "./DeleteRecordModal";
+import Pagination from "@/components/Pagination";
 
 const HomePage = () => {
-  // const [records, setRecords] = useState([]);
+  const [title, setTitle] = useState("");
+  const [page, setPage] = useState(1);
+  const limit = 2;
+
+  // Calculate offset for the API call
+  const offset = (page - 1) * limit;
   const [singleRecord, setSingleRecord] = useState();
 
   const [showViewRecordModal, setShowViewRecordModal] = useState(false);
@@ -17,12 +23,23 @@ const HomePage = () => {
   const [showEditRecordModal, setShowEditRecordModal] = useState(false);
   const [showDeleteRecordModal, setShowDeleteRecordModal] = useState(false);
 
-  const { data: records } = useGetRecords();
+  const { data: records } = useGetRecords({ title, limit, offset });
 
   return (
     <div className="min-h-screen bg-gray-50 p-10">
       <div className="flex justify-between">
         <h1 className="text-2xl font-semibold">Your Records</h1>
+        <input
+          type="text"
+          placeholder="Search Here with Title"
+          className="border-2 border-gray-300 rounded-md p-2 mx-4 w-[75%] min-w-100"
+          onChange={(e) => {
+            setTimeout(() => {
+              setTitle(e.target.value);
+              setPage(1);
+            }, 1000);
+          }}
+        />
         <button
           className="bg-indigo-600 rounded-md text-white py-2 px-4 font-semibold cursor-pointer"
           onClick={() => setShowCreateRecordModal(true)}
@@ -53,7 +70,7 @@ const HomePage = () => {
             </thead>
 
             <tbody className="divide-y divide-gray-200">
-              {records?.map((item) => (
+              {records?.data?.map((item) => (
                 <tr
                   key={item?.id}
                   className="hover:bg-gray-50 transition-colors"
@@ -62,7 +79,7 @@ const HomePage = () => {
                     {item?.title}
                   </td>
                   <td className="px-4 py-3 text-gray-700 max-w-xs truncate">
-                    {item?.sentiment?.mood}
+                    {item?.sentiment?.mood?.toLowerCase()}
                   </td>
                   <td className="whitespace-nowrap px-4 py-3 text-gray-600">
                     {new Date(item?.date).toLocaleDateString()}
@@ -88,6 +105,14 @@ const HomePage = () => {
               ))}
             </tbody>
           </table>
+
+          {records?.meta && (
+            <Pagination
+              meta={records.meta}
+              onPageChange={(newPage) => setPage(newPage)}
+              // isFetching={isFetching}
+            />
+          )}
         </div>
 
         {showViewRecordModal && (

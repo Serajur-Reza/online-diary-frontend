@@ -4,11 +4,11 @@ import api from "@/utils/axios";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-export default function useGetRecords() {
+export default function useGetRecords({ title, limit, offset }) {
   const accessToken = getAccessToken();
 
   return useQuery({
-    queryKey: ["record"],
+    queryKey: ["record", title, limit, offset],
     // 1. The actual API call
     queryFn: async () => {
       try {
@@ -19,7 +19,12 @@ export default function useGetRecords() {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
-          }
+            params: {
+              title,
+              limit,
+              offset,
+            },
+          },
         );
         return response.data;
       } catch (error) {

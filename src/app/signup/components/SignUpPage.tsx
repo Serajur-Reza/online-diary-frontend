@@ -30,7 +30,8 @@ const SignUpPage = () => {
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   const onSubmit = async (data) => {
-    const res = await signup({ data });
+    const finalData = { ...data, role: "user" };
+    const res = await signup({ data: finalData });
     router.push("/login");
   };
   return (
