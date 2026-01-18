@@ -41,7 +41,7 @@ export default function Pagination({ meta, onPageChange, isFetching }: Props) {
         </button>
       </div> */}
 
-      <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+      <div className=" sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div>
           <p className="text-sm text-gray-700">
             Showing{" "}
@@ -64,7 +64,7 @@ export default function Pagination({ meta, onPageChange, isFetching }: Props) {
             <button
               onClick={() => onPageChange(currentPage - 1)}
               disabled={currentPage === 1 || isFetching}
-              className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20  disabled:opacity-50 disabled:cursor-not-allowed"
+              className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 cursor-pointer  disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <ChevronLeft className="h-5 w-5" />
             </button>
@@ -78,7 +78,7 @@ export default function Pagination({ meta, onPageChange, isFetching }: Props) {
                 <button
                   key={pageNum}
                   onClick={() => onPageChange(pageNum)}
-                  className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ring-1 ring-inset ring-gray-300 focus:z-20 ${
+                  className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ring-1 ring-inset ring-gray-300 focus:z-20 cursor-pointer ${
                     isCurrent
                       ? "z-10 bg-indigo-600 text-white focus-visible:outline-indigo-600"
                       : "text-gray-900 hover:bg-gray-50"
@@ -92,7 +92,7 @@ export default function Pagination({ meta, onPageChange, isFetching }: Props) {
             <button
               onClick={() => onPageChange(currentPage + 1)}
               disabled={currentPage === totalPages || isFetching}
-              className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 cursor-pointer ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <ChevronRight className="h-5 w-5" />
             </button>

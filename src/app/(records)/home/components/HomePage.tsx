@@ -12,7 +12,7 @@ import Pagination from "@/components/Pagination";
 const HomePage = () => {
   const [title, setTitle] = useState("");
   const [page, setPage] = useState(1);
-  const limit = 2;
+  const limit = 10;
 
   // Calculate offset for the API call
   const offset = (page - 1) * limit;

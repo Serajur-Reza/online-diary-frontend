@@ -14,7 +14,14 @@ export const isTokenValid = (token: string) => {
 };
 
 export const getAccessToken = () => {
-  return localStorage?.getItem("accessToken") || "";
+  // Ensure this only runs or initializes where it has access to a path
+  if (typeof window !== "undefined") {
+    // Server-side initialization logic here
+    // Make sure your config includes the file path flag
+
+    return localStorage?.getItem("accessToken");
+  }
+  return "";
 };
 
 export const userInfo = () => {

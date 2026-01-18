@@ -126,7 +126,7 @@ const SignUpPage = () => {
           )}
         </div>
 
-        <div className="mt-4">
+        {/* <div className="mt-4">
           <label className="block text-sm font-medium text-gray-700">
             Role
           </label>
@@ -155,7 +155,7 @@ const SignUpPage = () => {
                 : "This field is required"}
             </span>
           )}
-        </div>
+        </div> */}
       </div>
 
       <div>

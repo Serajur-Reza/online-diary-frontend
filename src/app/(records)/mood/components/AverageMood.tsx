@@ -5,7 +5,7 @@ import useGetRecords from "../../home/api/useGetRecords";
 
 function getMostFrequentMood(data) {
   // 1. Create a frequency map (e.g., { "Positive": 3, "Negative": 1 })
-  const moodMap = data.reduce((acc, entry) => {
+  const moodMap = data?.data.reduce((acc, entry) => {
     if (entry?.sentiment?.mood) {
       const mood = entry?.sentiment?.mood?.toLowerCase();
       acc[mood] = (acc[mood] || 0) + 1;
@@ -33,7 +33,11 @@ function getMostFrequentMood(data) {
 }
 
 const AverageMood = () => {
-  const { data: records, isLoading } = useGetRecords();
+  const { data: records, isLoading } = useGetRecords({
+    title: "",
+    limit: 10,
+    offset: 0,
+  });
 
   if (isLoading) {
     return <div>Loading...</div>;

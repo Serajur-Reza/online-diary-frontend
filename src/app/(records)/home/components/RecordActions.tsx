@@ -41,7 +41,7 @@ export default function RecordActions(props) {
       {/* The 3-Dots Trigger */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-colors focus:outline-none"
+        className="flex items-center p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-colors focus:outline-none cursor-pointer"
       >
         <EllipsisVertical size={18} />
       </button>
@@ -55,7 +55,7 @@ export default function RecordActions(props) {
                 setShowViewRecordModal(true);
                 setIsOpen(false);
               }}
-              className="group flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white transition-colors"
+              className="group flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white transition-colors cursor-pointer"
             >
               <ExternalLink className="mr-3 h-4 w-4" />
               View Record
@@ -65,7 +65,7 @@ export default function RecordActions(props) {
                 setShowEditRecordModal(true);
                 setIsOpen(false);
               }}
-              className="group flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white transition-colors"
+              className="group flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white transition-colors cursor-pointer"
             >
               <Edit className="mr-3 h-4 w-4" />
               Edit Record
@@ -77,7 +77,7 @@ export default function RecordActions(props) {
                 setShowDeleteRecordModal(true);
                 setIsOpen(false);
               }}
-              className="group flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-600 hover:text-white transition-colors"
+              className="group flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-600 hover:text-white transition-colors cursor-pointer"
             >
               <Trash className="mr-3 h-4 w-4" />
               Delete Record
