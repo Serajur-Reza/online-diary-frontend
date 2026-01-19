@@ -47,7 +47,9 @@ const AverageMood = () => {
 
   return (
     <div>
-      <h3 className="font-extrabold text-4xl">{res?.mood}</h3>
+      <h3 className="font-extrabold text-4xl">
+        {res?.mood || "No data available"}
+      </h3>
     </div>
   );
 };

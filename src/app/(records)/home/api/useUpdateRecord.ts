@@ -10,7 +10,7 @@ export default function useUpdateRecord() {
   return useMutation({
     // 1. The actual API call
     mutationFn: async ({ id, data }) => {
-      const response = await api.patch(`${baseUrl}/records/${id}`, data, {
+      const response = await api.patch(`/records/${id}`, data, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

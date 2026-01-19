@@ -10,7 +10,7 @@ export default function useCreateRecord() {
   return useMutation({
     // 1. The actual API call
     mutationFn: async ({ data }) => {
-      const response = await api.post(`${baseUrl}/records/`, data, {
+      const response = await api.post(`/records/`, data, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

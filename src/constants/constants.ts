@@ -1,4 +1,5 @@
 export const baseUrl = "http://localhost:3000";
+export const hostedUrl = "https://online-diary-backend.vercel.app";
 export const publicRoutes = ["/login", "/signup", "/reset-password"];
 export const publicApis = [
   "/users",

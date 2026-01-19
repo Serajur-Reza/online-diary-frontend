@@ -1,9 +1,9 @@
-import { baseUrl, publicApis } from "@/constants/constants";
+import { baseUrl, hostedUrl, publicApis } from "@/constants/constants";
 import axios from "axios";
 import { isTokenValid } from "./auth";
 
 const api = axios.create({
-  baseURL: baseUrl,
+  baseURL: hostedUrl || baseUrl,
   headers: {
     "Content-Type": "application/json",
   },

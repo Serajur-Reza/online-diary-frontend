@@ -11,17 +11,17 @@ export default function useSignUp() {
     // 1. The actual API call
     mutationFn: async ({ data }) => {
       try {
-        const res = await api.post(`${baseUrl}/users`, data);
+        const res = await api.post(`/users`, data);
 
         toast?.success("Successfully Registered");
       } catch (error) {
         if (error?.response?.status === 400) {
           toast?.error(
-            error?.response?.data?.message || "something went wrong"
+            error?.response?.data?.message || "something went wrong",
           );
         } else if (error?.response?.status === 401) {
           toast?.error(
-            error?.response?.data?.message || "something went wrong"
+            error?.response?.data?.message || "something went wrong",
           );
         } else {
           toast?.error(error?.message || "something went wrong");

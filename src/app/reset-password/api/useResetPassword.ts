@@ -11,17 +11,17 @@ export default function useResetPassword() {
     // 1. The actual API call
     mutationFn: async ({ data }) => {
       try {
-        const res = await api.patch(`${baseUrl}/auth/change-password`, data);
+        const res = await api.patch(`/auth/change-password`, data);
 
         toast?.success("Password Changed Successfully");
       } catch (error) {
         if (error?.response?.status === 400) {
           toast?.error(
-            error?.response?.data?.message || "something went wrong"
+            error?.response?.data?.message || "something went wrong",
           );
         } else if (error?.response?.status === 401) {
           toast?.error(
-            error?.response?.data?.message || "something went wrong"
+            error?.response?.data?.message || "something went wrong",
           );
         } else {
           toast?.error(error?.message || "something went wrong");

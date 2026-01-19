@@ -10,7 +10,7 @@ export default function useDeleteRecord() {
   return useMutation({
     // 1. The actual API call
     mutationFn: async ({ id }) => {
-      const response = await api.delete(`${baseUrl}/records/${id}`, {
+      const response = await api.delete(`/records/${id}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

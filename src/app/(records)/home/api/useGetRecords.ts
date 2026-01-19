@@ -13,7 +13,7 @@ export default function useGetRecords({ title, limit, offset }) {
     queryFn: async () => {
       try {
         const response = await api.get(
-          `${baseUrl}/records`,
+          `/records`,
 
           {
             headers: {
