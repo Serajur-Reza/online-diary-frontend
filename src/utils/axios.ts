@@ -1,6 +1,7 @@
 import { baseUrl, hostedUrl, publicApis } from "@/constants/constants";
 import axios from "axios";
 import { isTokenValid } from "./auth";
+import { toast } from "sonner";
 
 const api = axios.create({
   baseURL: hostedUrl || baseUrl,
@@ -24,7 +25,7 @@ api.interceptors.request.use(
 
       if (!isValid) {
         const newToken = await api.post(
-          `${baseUrl}/auth/refresh-token`,
+          `${hostedUrl}/auth/refresh-token`,
           {},
           { withCredentials: true },
         );
@@ -68,16 +69,20 @@ api.interceptors.response.use(
     if (error.response && error.response.data) {
       const { status, message, error: errType } = error.response.data;
 
-      // console.log(error);
+      // console.log(message);
 
       if (error.response && error.response.status === 401) {
         // Handle token expiration, redirect to login, etc.
         console.warn("Unauthorized, redirecting to login...", error);
+        // window.location.href = "/login";
+        if (message === "This user does not exist") {
+          window.location.href = "/login";
+        }
       }
 
       // Logic for specific AI errors
       if (errType === "AI_ANALYSIS_FAILED") {
-        console.warn(`[AI Service Error]: ${message}`);
+        toast?.error(`[AI Service Error]: ${message}`);
       }
 
       // Return a rejected promise with the message we wrote in NestJS
